@@ -47,7 +47,6 @@ body {
     height: 100vh;
     display: block;       /* block flow ensures input follows output */
     overflow-y: auto;     /* scrolls if content exceeds view */
-    align-items: center;         /* center horizontally */
 }
 
 #output {
