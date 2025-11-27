@@ -110,8 +110,8 @@ body {
 .sweep {
     position: absolute;
     top: 0;
-    left: 100%;
-    width: 100%;
+    left: 100vw;
+    width: 100vw;
     background: linear-gradient(to left, rgba(255,255,255,0.8), rgba(84,163,20,0.4));
     pointer-events: none;
     z-index: 5;
