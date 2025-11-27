@@ -99,8 +99,3 @@ body {
         0 0 32px var(--terminal-color),
         0 0 48px var(--terminal-color);
 }
-
-#prompt-line {
-    display: flex;
-    margin-top: 5px;
-}
