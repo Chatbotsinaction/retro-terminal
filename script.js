@@ -1,4 +1,4 @@
-// -------- Boot Sequence --------
+// -------- Boot Sequence -------- 
 const bootText = `MO-TH-ER 7000
 Initializing system... 
 Loading kernel modules...
@@ -30,13 +30,11 @@ function resetInactivityTimer() {
 }
 
 function returnToBoot() {
-    // Clear terminal content
     output.innerHTML = "";
     userInput.textContent = "";
     firstPromptEntered = false;
     qaCount = 0;
 
-    // Hide terminal, show boot
     terminal.classList.add("hidden");
     bootScreen.classList.remove("hidden");
     bootIndex = 0;
@@ -78,7 +76,6 @@ window.addEventListener("keydown", (e) => {
 
     if (terminal.classList.contains("hidden")) return;
 
-    // Remove previous last character
     const lastChar = userInput.querySelector(".last");
     if (lastChar) lastChar.classList.remove("last");
 
@@ -116,7 +113,6 @@ window.addEventListener("click", resetInactivityTimer);
 function processCommand(cmd) {
     cmd = cmd.trim();
 
-    // Handle first prompt requirement
     if (!firstPromptEntered) {
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
@@ -133,17 +129,14 @@ function processCommand(cmd) {
 
 // -------- Append a Q/A pair --------
 function appendQA(questionText, answerText) {
-    // Create container
     const qaPair = document.createElement("div");
     qaPair.classList.add("qa-pair");
 
-    // Question
     const qDiv = document.createElement("div");
     qDiv.classList.add("question");
     qDiv.textContent = questionText;
     qaPair.appendChild(qDiv);
 
-    // Answer
     const aDiv = document.createElement("div");
     aDiv.classList.add("answer");
     qaPair.appendChild(aDiv);
@@ -151,51 +144,41 @@ function appendQA(questionText, answerText) {
     output.appendChild(qaPair);
     scrollTerminal();
 
-    // Type answer with sweep
-    typeAnswer(aDiv, answerText);
+    // --- Sweep BEFORE typing answer ---
+    const sweep = document.createElement("div");
+    sweep.classList.add("sweep");
+    sweep.style.height = aDiv.offsetHeight + "px";
+    aDiv.appendChild(sweep);
 
-    // Increment counter
+    sweep.addEventListener("animationend", () => {
+        sweep.remove();
+        typeAnswer(aDiv, answerText);
+    });
+
     qaCount++;
     if (qaCount >= 3) {
-        // After last answer finishes, clear screen automatically
         setTimeout(() => {
             output.innerHTML = "";
             userInput.textContent = "";
             qaCount = 0;
-            // Keep cursor at top
-        }, 2000); // 2 seconds after last answer
+        }, 2000);
     }
 }
 
-// -------- Type answer with sweep effect --------
+// -------- Typewriter effect --------
 function typeAnswer(answerDiv, text) {
-    // Create sweep
-    const sweep = document.createElement("div");
-    sweep.classList.add("sweep");
-
-    // Match the height of the text
-    const textHeight = answerDiv.offsetHeight; // height of the answer div
-    sweep.style.height = textHeight + "px";
-    
-    answerDiv.appendChild(sweep);
-
-    sweep.addEventListener("animationend", () => {
-        sweep.remove();
-        let i = 0;
-
-        function typeChar() {
-            if (i < text.length) {
-                answerDiv.textContent += text[i];
-                responseSound.currentTime = 0;
-                responseSound.play();
-                i++;
-                scrollTerminal();
-                setTimeout(typeChar, 25);
-            }
+    let i = 0;
+    function typeChar() {
+        if (i < text.length) {
+            answerDiv.textContent += text[i];
+            responseSound.currentTime = 0;
+            responseSound.play();
+            i++;
+            scrollTerminal();
+            setTimeout(typeChar, 25);
         }
-
-        typeChar();
-    });
+    }
+    typeChar();
 }
 
 // -------- Scroll terminal to bottom --------
@@ -203,7 +186,7 @@ function scrollTerminal() {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-// -------- Boot / CRT Noise --------
+// -------- CRT Noise --------
 const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
