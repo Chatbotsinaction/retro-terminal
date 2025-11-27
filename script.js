@@ -20,7 +20,7 @@ let qaCount = 0;               // number of Q/A pairs displayed
 
 // -------- Inactivity timer --------
 let inactivityTimer;
-const INACTIVITY_LIMIT = 10000; // 10 seconds
+const INACTIVITY_LIMIT = 20000; // 10 seconds
 
 function resetInactivityTimer() {
     clearTimeout(inactivityTimer);
