@@ -172,6 +172,11 @@ function typeAnswer(answerDiv, text) {
     // Create sweep
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
+
+    // Match the height of the text
+    const textHeight = answerDiv.offsetHeight; // height of the answer div
+    sweep.style.height = textHeight + "px";
+    
     answerDiv.appendChild(sweep);
 
     sweep.addEventListener("animationend", () => {
