@@ -1,6 +1,6 @@
 :root {
     --terminal-color: #54A314;        /* darker glowing green */
-    --terminal-glow: 0 0 6px #54A314;
+    --terminal-glow: 0 0 20px #54A314;
 
     --terminal-font-size: 22px;
     --terminal-font: "Courier New", monospace;
