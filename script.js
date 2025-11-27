@@ -51,12 +51,13 @@ const commands = {
 const userInput = document.getElementById("user-input");
 const output = document.getElementById("output");
 
-let firstPromptEntered = false; 
-let interactionCount = 0; // <--- NEW
+let firstPromptEntered = false;
+let interactionCount = 0; // OPTION A counter
 
 window.addEventListener("keydown", (e) => {
     if (terminal.classList.contains("hidden")) return;
 
+    // Remove previous last character
     const lastChar = userInput.querySelector(".last");
     if (lastChar) lastChar.classList.remove("last");
 
@@ -67,10 +68,12 @@ window.addEventListener("keydown", (e) => {
         const text = userInput.textContent;
         userInput.textContent = "";
 
+        // rebuild characters
         for (let i = 0; i < text.length; i++) {
             userInput.append(text[i]);
         }
 
+        // new last char
         const span = document.createElement("span");
         span.classList.add("last");
         span.textContent = e.key;
@@ -92,31 +95,28 @@ window.addEventListener("keydown", (e) => {
 function processCommand(cmd) {
     cmd = cmd.trim();
 
+    // FIRST mandatory prompt
     if (!firstPromptEntered) {
+        appendOutput("> " + cmd);
+
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
-            appendOutput("> " + cmd);
             typeResponse("INTERFACE 2037 READY FOR INQUIRY");
         } else {
-            appendOutput("> " + cmd);
             typeResponse("You must type 'hi mother' as the first prompt.");
         }
+
         return;
     }
 
+    // Normal commands after first prompt
     appendOutput("> " + cmd);
 
     const answer = commands[cmd.toLowerCase()] || "Unknown command.";
     typeResponse(answer);
 
+    // Count question-answer pairs
     interactionCount++;
-
-    // ---- NEW: Clear screen after 3 Q/A pairs ----
-    if (interactionCount >= 3) {
-        setTimeout(() => wipeScreenAndReset(), 300);
-        interactionCount = 0;
-        return;
-    }
 }
 
 // -------- Append output instantly --------
@@ -128,18 +128,20 @@ function appendOutput(text) {
     scrollTerminal();
 }
 
-// -------- Typewriter effect with sweep --------
+// -------- Typewriter effect with sweep + OPTION A wipe --------
 function typeResponse(answer) {
-
+    // Create the answer container
     const answerLine = document.createElement("div");
     answerLine.classList.add("output-line");
     output.appendChild(answerLine);
     scrollTerminal();
 
+    // Add sweep
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
     answerLine.appendChild(sweep);
 
+    // When sweep ends → typewriter
     sweep.addEventListener("animationend", () => {
         sweep.remove();
 
@@ -153,18 +155,25 @@ function typeResponse(answer) {
                 i++;
                 scrollTerminal();
                 setTimeout(typeChar, 25);
+            } else {
+                // ---------------------------
+                // OPTION A:
+                // After 3rd answer FINISHES typing ↓
+                // ---------------------------
+                if (interactionCount === 3) {
+                    setTimeout(() => {
+                        wipeScreenAndReset();
+                        interactionCount = 0;
+                    }, 500);
+                }
             }
         }
+
         typeChar();
     });
 }
 
-// -------- Scroll terminal to bottom --------
-function scrollTerminal() {
-    terminal.scrollTop = terminal.scrollHeight;
-}
-
-// -------- NEW: Wipe screen and reset cursor at top --------
+// -------- Screen wipe + cursor at TOP (Option A core) --------
 function wipeScreenAndReset() {
     output.innerHTML = "";
 
@@ -176,6 +185,11 @@ function wipeScreenAndReset() {
     userInput.textContent = "";
 
     terminal.scrollTop = 0;
+}
+
+// -------- Scroll terminal to bottom --------
+function scrollTerminal() {
+    terminal.scrollTop = terminal.scrollHeight;
 }
 
 // -------- CRT Noise --------
