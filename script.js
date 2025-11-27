@@ -42,7 +42,7 @@ const commands = {
     "hello": "Hello! How can I assist you today?",
     "help": "Available commands: hello, help, version, whoareyou",
     "version": "Retro Terminal v1.1",
-    "hi mother": "INTERFACE 2037 READU FOR INQUIRY",
+    "hi mother": "INTERFACE 2037 READY FOR INQUIRY",
     "request clarification on science inability to neutralize alien": "UNABLE TO CLARIFY",
     "request enhancement": "NO FURTHER ENHANCEMENT\nSPECIAL ORDER 937\nSCIENCE OFFICER EYES ONLY\nEMERGENCY COMMAND OVERIDE 100375",
     "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.\nPRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE",
