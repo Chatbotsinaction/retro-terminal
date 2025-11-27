@@ -52,7 +52,9 @@ body {
 .hidden { display: none; }
 
 #output {
+    order: 1;
     flex-grow: 1;
+    overflow-y: auto;
     white-space: pre-wrap;
     color: var(--terminal-color);
     text-shadow: var(--terminal-glow);
@@ -60,7 +62,8 @@ body {
 
 /* Input line */
 #input-line {
-    display: flex;
+    order: 0;
+    margin-bottom: 10px;
 }
 
 #user-input {
