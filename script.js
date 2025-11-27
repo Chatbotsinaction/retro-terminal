@@ -98,7 +98,7 @@ function processCommand(cmd) {
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
             appendOutput("> " + cmd);
-            typeResponse("Hello, child! You may now enter other commands.");
+            typeResponse("INTERFACE 2037 READY FOR INQUIRY");
         } else {
             appendOutput("> " + cmd);
             typeResponse("You must type 'hi mother' as the first prompt.");
