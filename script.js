@@ -192,25 +192,25 @@ function scrollTerminal() {
 }
 
 // -------- CRT Noise --------
-const crt = document.getElementById("crt");
-const ctx = crt.getContext("2d");
-crt.width = window.innerWidth;
-crt.height = window.innerHeight;
-
-function drawCRT() {
-    const imageData = ctx.createImageData(crt.width, crt.height);
-    for (let i = 0; i < imageData.data.length; i += 4) {
-        const noise = Math.random() * 40;
-        imageData.data[i] = noise;
-        imageData.data[i+1] = noise;
-        imageData.data[i+2] = noise;
-        imageData.data[i+3] = 255;
-    }
-    ctx.putImageData(imageData, 0, 0);
-    requestAnimationFrame(drawCRT);
-}
-
-drawCRT();
+//const crt = document.getElementById("crt");
+//const ctx = crt.getContext("2d");
+//crt.width = window.innerWidth;
+//crt.height = window.innerHeight;
+//
+//function drawCRT() {
+//  const imageData = ctx.createImageData(crt.width, crt.height);
+//  for (let i = 0; i < imageData.data.length; i += 4) {
+//      const noise = Math.random() * 40;
+//      imageData.data[i] = noise;
+//      imageData.data[i+1] = noise;
+//      imageData.data[i+2] = noise;
+//      imageData.data[i+3] = 255;
+//  }
+//  ctx.putImageData(imageData, 0, 0);
+//  requestAnimationFrame(drawCRT);
+//}
+//
+//drawCRT();
 
 // -------- Start terminal on click or key --------
 window.addEventListener("click", startTerminal, { once: true });
