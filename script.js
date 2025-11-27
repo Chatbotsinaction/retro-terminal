@@ -166,7 +166,7 @@ function appendQA(questionText, answerText) {
             output.innerHTML = "";
             userInput.textContent = "";
             qaCount = 0;
-        }, 2000);
+        }, 5000);
     }
 }
 
