@@ -48,12 +48,11 @@ const userInput = document.getElementById("user-input");
 const output = document.getElementById("output");
 
 let firstPromptEntered = false; // tracks if "hi mother" was entered
-let typingTimeout;
 
 window.addEventListener("keydown", (e) => {
     if (terminal.classList.contains("hidden")) return;
 
-    // Remove last-character highlight
+    // Remove previous last character
     const lastChar = userInput.querySelector(".last");
     if (lastChar) lastChar.classList.remove("last");
 
@@ -61,7 +60,7 @@ window.addEventListener("keydown", (e) => {
         typeSound.currentTime = 0;
         typeSound.play();
 
-        let text = userInput.textContent;
+        const text = userInput.textContent;
         userInput.textContent = "";
 
         // rebuild previous characters
@@ -69,7 +68,7 @@ window.addEventListener("keydown", (e) => {
             userInput.append(text[i]);
         }
 
-        // add new last character
+        // new last character
         const span = document.createElement("span");
         span.classList.add("last");
         span.textContent = e.key;
@@ -91,7 +90,6 @@ window.addEventListener("keydown", (e) => {
 function processCommand(cmd) {
     cmd = cmd.trim();
     
-    // Check first prompt
     if (!firstPromptEntered) {
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
@@ -104,20 +102,19 @@ function processCommand(cmd) {
         return;
     }
 
-    // Normal commands
     appendOutput("> " + cmd);
 
     const answer = commands[cmd.toLowerCase()] || "Unknown command.";
     typeResponse(answer);
 }
 
-// -------- Append text instantly --------
+// -------- Append output instantly --------
 function appendOutput(text) {
     output.textContent += "\n" + text;
-    output.scrollTop = output.scrollHeight;
+    scrollTerminal();
 }
 
-// -------- Typewriter Effect --------
+// -------- Typewriter effect --------
 function typeResponse(answer) {
     let i = 0;
 
@@ -127,18 +124,23 @@ function typeResponse(answer) {
             responseSound.currentTime = 0;
             responseSound.play();
             i++;
-            output.scrollTop = output.scrollHeight;
-            setTimeout(typeChar, 25); // speed of typing
+            scrollTerminal();
+            setTimeout(typeChar, 25);
         } else {
             output.textContent += "\n";
-            output.scrollTop = output.scrollHeight;
+            scrollTerminal();
         }
     }
 
-    setTimeout(typeChar, 200); // slight delay before starting
+    setTimeout(typeChar, 200);
 }
 
-// -------- CRT Noise --------
+// -------- Scroll terminal to bottom --------
+function scrollTerminal() {
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+// -------- CRT Noise (optional, can remove if needed) --------
 const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
