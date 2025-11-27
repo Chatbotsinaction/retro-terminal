@@ -68,6 +68,8 @@ const commands = {
     "request clarification on science inability to neutralize alien": "UNABLE TO CLARIFY",
     "request enhancement": "NO FURTHER ENHANCEMENT\nSPECIAL ORDER 937\nSCIENCE OFFICER EYES ONLY\nEMERGENCY COMMAND OVERIDE 100375",
     "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.PRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE"
+    "what is the purpose of special order 937 ?": "UNABLE TO COMPUTE",
+    "what is the meaningg of signal from LV-426 ?": "UNABLE TO COMPUTE",
 };
 
 // -------- User Input Handling --------
