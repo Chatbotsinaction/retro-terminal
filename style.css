@@ -90,3 +90,12 @@ body {
     color: var(--last-char-color);
     text-shadow: 0 0 4px var(--last-char-color);
 }
+
+#user-input,
+#output {
+    text-shadow:
+        0 0 8px var(--terminal-color),
+        0 0 16px var(--terminal-color),
+        0 0 32px var(--terminal-color),
+        0 0 48px var(--terminal-color);
+}
