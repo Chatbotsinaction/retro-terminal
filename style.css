@@ -57,6 +57,7 @@ body {
         0 0 16px var(--terminal-color),
         0 0 32px var(--terminal-color),
         0 0 48px var(--terminal-color);
+    text-align: center;   /* <-- centers all text horizontally */
 }
 
 /* Input line follows output */
