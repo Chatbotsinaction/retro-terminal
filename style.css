@@ -50,8 +50,12 @@ body {
     z-index: 2;
     padding: 20px;
     height: 100vh;
-    display: block;       /* block flow ensures input follows output */
-    overflow-y: auto;     /* scrolls if content exceeds view */
+    /* Flexbox to center content vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centers vertically */
+    align-items: flex-start; /* keeps Q/A pairs left-aligned, change to center for horizontal centering */
+    overflow-y: auto;
 }
 
 #output {
