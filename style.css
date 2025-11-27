@@ -1,6 +1,6 @@
 :root {
     --terminal-color: #54A314;        /* darker glowing green */
-    --terminal-glow: 0 0 20px #54A314;
+    --terminal-glow: 0 0 100px #54A314;
 
     --terminal-font-size: 22px;
     --terminal-font: "Courier New", monospace;
@@ -72,7 +72,10 @@ body {
 
 #cursor {
     color: var(--cursor-color);
-    text-shadow: var(--terminal-glow);
+    text-shadow:
+        0 0 10px var(--cursor-color),
+        0 0 20px var(--cursor-color),
+        0 0 35px var(--cursor-color);
     animation: blink 0.7s infinite;
 }
 
