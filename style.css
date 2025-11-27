@@ -37,6 +37,11 @@ body {
     white-space: pre-line;
     color: var(--terminal-color);
     text-shadow: var(--terminal-glow);
+    text-shadow:
+        0 0 8px var(--terminal-color),
+        0 0 16px var(--terminal-color),
+        0 0 32px var(--terminal-color),
+        0 0 48px var(--terminal-color);
 }
 
 /* Terminal layout */
