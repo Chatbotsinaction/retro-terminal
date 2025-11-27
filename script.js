@@ -1,8 +1,7 @@
-// -------- Boot Sequence -------- 
-const bootText = `MO-TH-ER 7000
-Initializing system... 
+// -------- Boot Sequence --------
+const bootText = `Initializing system... 
 Loading kernel modules...
-Booting Terminal...
+Booting Retro Terminal v1.0...
 
 Ready.`;
 
@@ -11,9 +10,39 @@ const terminal = document.getElementById("terminal");
 const typeSound = document.getElementById("type-sound");
 const responseSound = document.getElementById("response-sound");
 const bootSound = document.getElementById("boot-sound");
+const userInput = document.getElementById("user-input");
+const output = document.getElementById("output");
 
 let bootIndex = 0;
+let firstPromptEntered = false; // tracks if "hi mother" was entered
+let qaCount = 0;               // number of Q/A pairs displayed
 
+// -------- Inactivity timer --------
+let inactivityTimer;
+const INACTIVITY_LIMIT = 10000; // 10 seconds
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        returnToBoot();
+    }, INACTIVITY_LIMIT);
+}
+
+function returnToBoot() {
+    // Clear terminal content
+    output.innerHTML = "";
+    userInput.textContent = "";
+    firstPromptEntered = false;
+    qaCount = 0;
+
+    // Hide terminal, show boot
+    terminal.classList.add("hidden");
+    bootScreen.classList.remove("hidden");
+    bootIndex = 0;
+    playBoot();
+}
+
+// -------- Boot animation --------
 function playBoot() {
     bootSound.play();
 
@@ -24,16 +53,10 @@ function playBoot() {
             setTimeout(() => {
                 bootScreen.classList.add("hidden");
                 terminal.classList.remove("hidden");
+                resetInactivityTimer();
             }, 800);
         }
     }, 40);
-}
-
-window.addEventListener("click", startTerminal, { once: true });
-window.addEventListener("keydown", startTerminal, { once: true });
-
-function startTerminal() {
-    playBoot();
 }
 
 // -------- Terminal Commands --------
@@ -45,17 +68,13 @@ const commands = {
     "hi mother": "INTERFACE 2037 READY FOR INQUIRY",
     "request clarification on science inability to neutralize alien": "UNABLE TO CLARIFY",
     "request enhancement": "NO FURTHER ENHANCEMENT\nSPECIAL ORDER 937\nSCIENCE OFFICER EYES ONLY\nEMERGENCY COMMAND OVERIDE 100375",
-    "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.\nPRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE"
+    "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.PRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE"
 };
 
 // -------- User Input Handling --------
-const userInput = document.getElementById("user-input");
-const output = document.getElementById("output");
-
-let firstPromptEntered = false;
-let interactionCount = 0; // OPTION A counter
-
 window.addEventListener("keydown", (e) => {
+    resetInactivityTimer(); // Reset inactivity timer on keypress
+
     if (terminal.classList.contains("hidden")) return;
 
     // Remove previous last character
@@ -69,12 +88,10 @@ window.addEventListener("keydown", (e) => {
         const text = userInput.textContent;
         userInput.textContent = "";
 
-        // rebuild characters
         for (let i = 0; i < text.length; i++) {
             userInput.append(text[i]);
         }
 
-        // new last char
         const span = document.createElement("span");
         span.classList.add("last");
         span.textContent = e.key;
@@ -92,81 +109,82 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
+window.addEventListener("click", resetInactivityTimer);
+
 // -------- Process Commands --------
 function processCommand(cmd) {
     cmd = cmd.trim();
 
-    // FIRST mandatory prompt
+    // Handle first prompt requirement
     if (!firstPromptEntered) {
-        appendOutput("> " + cmd);
-
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
-            typeResponse("INTERFACE 2037 READY FOR INQUIRY");
+            appendQA("> " + cmd, "INTERFACE 2037 READY FOR INQUIRY");
         } else {
-            typeResponse("You must type 'hi mother' as the first prompt.");
+            appendQA("> " + cmd, "You must type 'hi mother' as the first prompt.");
         }
-
         return;
     }
 
-    // Normal commands after first prompt
-    appendOutput("> " + cmd);
-
     const answer = commands[cmd.toLowerCase()] || "Unknown command.";
-    typeResponse(answer);
-
-    // Count question-answer pairs
-    interactionCount++;
+    appendQA("> " + cmd, answer);
 }
 
-// -------- Append output instantly --------
-function appendOutput(text) {
-    const line = document.createElement("div");
-    line.classList.add("output-line");
-    line.textContent = text;
-    output.appendChild(line);
+// -------- Append a Q/A pair --------
+function appendQA(questionText, answerText) {
+    // Create container
+    const qaPair = document.createElement("div");
+    qaPair.classList.add("qa-pair");
+
+    // Question
+    const qDiv = document.createElement("div");
+    qDiv.classList.add("question");
+    qDiv.textContent = questionText;
+    qaPair.appendChild(qDiv);
+
+    // Answer
+    const aDiv = document.createElement("div");
+    aDiv.classList.add("answer");
+    qaPair.appendChild(aDiv);
+
+    output.appendChild(qaPair);
     scrollTerminal();
+
+    // Type answer with sweep
+    typeAnswer(aDiv, answerText);
+
+    // Increment counter
+    qaCount++;
+    if (qaCount >= 3) {
+        // After last answer finishes, clear screen automatically
+        setTimeout(() => {
+            output.innerHTML = "";
+            userInput.textContent = "";
+            qaCount = 0;
+            // Keep cursor at top
+        }, 2000); // 2 seconds after last answer
+    }
 }
 
-// -------- Typewriter effect with sweep + OPTION A wipe --------
-function typeResponse(answer) {
-    // Create the answer container
-    const answerLine = document.createElement("div");
-    answerLine.classList.add("output-line");
-    output.appendChild(answerLine);
-    scrollTerminal();
-
-    // Add sweep
+// -------- Type answer with sweep effect --------
+function typeAnswer(answerDiv, text) {
+    // Create sweep
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
-    answerLine.appendChild(sweep);
+    answerDiv.appendChild(sweep);
 
-    // When sweep ends → typewriter
     sweep.addEventListener("animationend", () => {
         sweep.remove();
-
         let i = 0;
 
         function typeChar() {
-            if (i < answer.length) {
-                answerLine.textContent += answer[i];
+            if (i < text.length) {
+                answerDiv.textContent += text[i];
                 responseSound.currentTime = 0;
                 responseSound.play();
                 i++;
                 scrollTerminal();
                 setTimeout(typeChar, 25);
-            } else {
-                // ---------------------------
-                // OPTION A:
-                // After 3rd answer FINISHES typing ↓
-                // ---------------------------
-                if (interactionCount === 3) {
-                    setTimeout(() => {
-                        wipeScreenAndReset();
-                        interactionCount = 0;
-                    }, 500);
-                }
             }
         }
 
@@ -174,26 +192,12 @@ function typeResponse(answer) {
     });
 }
 
-// -------- Screen wipe + cursor at TOP (Option A core) --------
-function wipeScreenAndReset() {
-    output.innerHTML = "";
-
-    const newPrompt = document.createElement("div");
-    newPrompt.classList.add("output-line");
-    newPrompt.innerHTML = "> ";
-    output.appendChild(newPrompt);
-
-    userInput.textContent = "";
-
-    terminal.scrollTop = 0;
-}
-
 // -------- Scroll terminal to bottom --------
 function scrollTerminal() {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-// -------- CRT Noise --------
+// -------- Boot / CRT Noise --------
 const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
@@ -213,3 +217,11 @@ function drawCRT() {
 }
 
 drawCRT();
+
+// -------- Start terminal on click or key --------
+window.addEventListener("click", startTerminal, { once: true });
+window.addEventListener("keydown", startTerminal, { once: true });
+
+function startTerminal() {
+    playBoot();
+}
