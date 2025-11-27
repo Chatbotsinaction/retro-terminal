@@ -1,16 +1,20 @@
-const bootText = `Initializing system...
+const bootText = `Initializing system... 
 Loading kernel modules...
 Booting Retro Terminal v1.0...
 
 Ready.`;
+
 const bootScreen = document.getElementById("boot-screen");
 const terminal = document.getElementById("terminal");
 const typeSound = document.getElementById("type-sound");
 const responseSound = document.getElementById("response-sound");
 const bootSound = document.getElementById("boot-sound");
+const userInput = document.getElementById("user-input");
+const output = document.getElementById("output");
 
 let bootIndex = 0;
 
+// Boot Sequence -----------------------------------
 function playBoot() {
     bootSound.play();
 
@@ -33,31 +37,41 @@ function startTerminal() {
     playBoot();
 }
 
-const userInput = document.getElementById("user-input");
-const output = document.getElementById("output");
-
-let typingTimeout;
-
+// Command system ---------------------------------------------------
 const commands = {
-    "hello": "Hello, user. How can I assist you?",
-    "help": "Available commands: hello, help, version",
-    "version": "Retro Terminal v1.0"
+    "hello": "Hello! How can I assist you today?",
+    "help": "Available commands: hello, help, version, whoareyou",
+    "version": "Retro Terminal v1.1",
+    "hi mother": "INTERFACE 2037 READU FOR INQUIRY",
+    "request clarification on science inability to neutralize alien": "UNABLE TO CLARIFY",
+    "request enhancement": "NO FURTHER ENHANCEMENT\nSPECIAL ORDER 937\nSCIENCE OFFICER EYES ONLY\nEMERGENCY COMMAND OVERIDE 100375",
+    "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.\nPRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE",
+    "whoareyou": "I am your retro-style terminal assistant."
 };
 
 window.addEventListener("keydown", (e) => {
     if (terminal.classList.contains("hidden")) return;
 
-    userInput.classList.remove("finished");
-
-    clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(() => {
-        userInput.classList.add("finished");
-    }, 800);
+    // Remove "last-char" before adding new character
+    cleanLastHighlight();
 
     if (e.key.length === 1) {
-        userInput.textContent += e.key;
         typeSound.currentTime = 0;
         typeSound.play();
+
+        let text = userInput.textContent;
+        userInput.textContent = "";
+
+        // Rebuild characters so last one can be styled
+        for (let i = 0; i < text.length; i++) {
+            userInput.append(text[i]);
+        }
+
+        // Add new last char with highlight
+        const span = document.createElement("span");
+        span.classList.add("last");
+        span.textContent = e.key;
+        userInput.append(span);
     }
 
     if (e.key === "Backspace") {
@@ -65,12 +79,23 @@ window.addEventListener("keydown", (e) => {
     }
 
     if (e.key === "Enter") {
-        processCommand(userInput.textContent);
+        const cmd = userInput.textContent.trim();
+        processCommand(cmd);
+
+        // Reset input
         userInput.textContent = "";
-        userInput.classList.remove("finished");
+        cleanLastHighlight();
     }
 });
 
+function cleanLastHighlight() {
+    const last = userInput.querySelector(".last");
+    if (last) {
+        last.classList.remove("last");
+    }
+}
+
+// Process command logic ---------------------------
 function processCommand(cmd) {
     output.textContent += `\n> ${cmd}`;
 
@@ -79,11 +104,13 @@ function processCommand(cmd) {
     setTimeout(() => {
         responseSound.currentTime = 0;
         responseSound.play();
+
         output.textContent += `\n${answer}\n`;
         output.scrollTop = output.scrollHeight;
     }, 200);
 }
 
+// CRT NOISE ---------------------------------------
 const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
