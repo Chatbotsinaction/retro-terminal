@@ -1,4 +1,4 @@
-// -------- Boot Sequence --------
+// -------- Boot Sequence -------- 
 const bootText = `Initializing system... 
 Loading kernel modules...
 Booting Retro Terminal v1.0...
@@ -51,12 +51,12 @@ const commands = {
 const userInput = document.getElementById("user-input");
 const output = document.getElementById("output");
 
-let firstPromptEntered = false; // tracks if "hi mother" was entered
+let firstPromptEntered = false; 
+let interactionCount = 0; // <--- NEW
 
 window.addEventListener("keydown", (e) => {
     if (terminal.classList.contains("hidden")) return;
 
-    // Remove previous last character
     const lastChar = userInput.querySelector(".last");
     if (lastChar) lastChar.classList.remove("last");
 
@@ -67,12 +67,10 @@ window.addEventListener("keydown", (e) => {
         const text = userInput.textContent;
         userInput.textContent = "";
 
-        // rebuild previous characters
         for (let i = 0; i < text.length; i++) {
             userInput.append(text[i]);
         }
 
-        // new last character
         const span = document.createElement("span");
         span.classList.add("last");
         span.textContent = e.key;
@@ -110,6 +108,15 @@ function processCommand(cmd) {
 
     const answer = commands[cmd.toLowerCase()] || "Unknown command.";
     typeResponse(answer);
+
+    interactionCount++;
+
+    // ---- NEW: Clear screen after 3 Q/A pairs ----
+    if (interactionCount >= 3) {
+        setTimeout(() => wipeScreenAndReset(), 300);
+        interactionCount = 0;
+        return;
+    }
 }
 
 // -------- Append output instantly --------
@@ -123,18 +130,16 @@ function appendOutput(text) {
 
 // -------- Typewriter effect with sweep --------
 function typeResponse(answer) {
-    // Create a container div for this answer
+
     const answerLine = document.createElement("div");
-    answerLine.classList.add("output-line"); // allows absolute sweep
+    answerLine.classList.add("output-line");
     output.appendChild(answerLine);
     scrollTerminal();
 
-    // Create the sweep element inside the line
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
     answerLine.appendChild(sweep);
 
-    // When sweep finishes, remove it and start typewriter
     sweep.addEventListener("animationend", () => {
         sweep.remove();
 
@@ -147,10 +152,9 @@ function typeResponse(answer) {
                 responseSound.play();
                 i++;
                 scrollTerminal();
-                setTimeout(typeChar, 25); // typing speed
+                setTimeout(typeChar, 25);
             }
         }
-
         typeChar();
     });
 }
@@ -158,6 +162,20 @@ function typeResponse(answer) {
 // -------- Scroll terminal to bottom --------
 function scrollTerminal() {
     terminal.scrollTop = terminal.scrollHeight;
+}
+
+// -------- NEW: Wipe screen and reset cursor at top --------
+function wipeScreenAndReset() {
+    output.innerHTML = "";
+
+    const newPrompt = document.createElement("div");
+    newPrompt.classList.add("output-line");
+    newPrompt.innerHTML = "> ";
+    output.appendChild(newPrompt);
+
+    userInput.textContent = "";
+
+    terminal.scrollTop = 0;
 }
 
 // -------- CRT Noise --------
