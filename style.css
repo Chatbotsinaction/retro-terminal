@@ -1,16 +1,25 @@
 :root {
-    --terminal-color: #00ff66;
-    --terminal-glow: 0 0 5px #00ff66;
+    --terminal-color: #54A314;        /* darker glowing green */
+    --terminal-glow: 0 0 6px #54A314;
+
+    --terminal-font-size: 22px;
+    --terminal-font: "Courier New", monospace;
+
+    --cursor-color: #54A314;
+    --last-char-color: orange;
 }
 
+/* Base layout */
 body {
     margin: 0;
     background: black;
     color: var(--terminal-color);
-    font-family: "Courier New", monospace;
+    font-family: var(--terminal-font);
+    font-size: var(--terminal-font-size);
     overflow: hidden;
 }
 
+/* CRT noise layer */
 #crt {
     position: fixed;
     top: 0; left: 0;
@@ -45,14 +54,22 @@ body {
 #output {
     flex-grow: 1;
     white-space: pre-wrap;
+    color: var(--terminal-color);
+    text-shadow: var(--terminal-glow);
 }
 
+/* Input line */
 #input-line {
     display: flex;
-    font-size: 20px;
+}
+
+#user-input {
+    text-shadow: var(--terminal-glow);
 }
 
 #cursor {
+    color: var(--cursor-color);
+    text-shadow: var(--terminal-glow);
     animation: blink 0.7s infinite;
 }
 
@@ -62,7 +79,8 @@ body {
     100% { opacity: 1; }
 }
 
-#user-input.finished {
-    border-bottom: 2px solid var(--terminal-color);
-    padding-bottom: 2px;
+/* Last typed character */
+#user-input .last {
+    color: var(--last-char-color);
+    text-shadow: 0 0 4px var(--last-char-color);
 }
