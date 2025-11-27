@@ -62,7 +62,7 @@ body {
 
 /* Input line */
 #input-line {
-    order: 1; /* input goes LAST */
+    order: 0;
     margin-bottom: 10px;
 }
 
