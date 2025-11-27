@@ -38,10 +38,11 @@ body {
     color: var(--terminal-color);
     text-shadow: var(--terminal-glow);
     text-shadow:
-        0 0 8px var(--terminal-color),
-        0 0 16px var(--terminal-color),
-        0 0 32px var(--terminal-color),
-        0 0 48px var(--terminal-color);
+        0 0 12px var(--terminal-color),
+        0 0 24px var(--terminal-color),
+        0 0 48px var(--terminal-color),
+        0 0 72px var(--terminal-color),
+        0 0 100px var(--terminal-color);
 }
 
 /* Terminal layout */
@@ -62,10 +63,11 @@ body {
     white-space: pre-wrap;
     color: var(--terminal-color);
     text-shadow:
-        0 0 8px var(--terminal-color),
-        0 0 16px var(--terminal-color),
-        0 0 32px var(--terminal-color),
-        0 0 48px var(--terminal-color);
+        0 0 12px var(--terminal-color),
+        0 0 24px var(--terminal-color),
+        0 0 48px var(--terminal-color),
+        0 0 72px var(--terminal-color),
+        0 0 100px var(--terminal-color);
 }
 
 /* Input line follows output */
@@ -77,18 +79,21 @@ body {
 
 #user-input {
     text-shadow:
-        0 0 8px var(--terminal-color),
-        0 0 16px var(--terminal-color),
-        0 0 32px var(--terminal-color),
-        0 0 48px var(--terminal-color);
+        0 0 12px var(--terminal-color),
+        0 0 24px var(--terminal-color),
+        0 0 48px var(--terminal-color),
+        0 0 72px var(--terminal-color),
+        0 0 100px var(--terminal-color);
 }
 
 #cursor {
     color: var(--cursor-color);
     text-shadow:
-        0 0 10px var(--cursor-color),
-        0 0 20px var(--cursor-color),
-        0 0 35px var(--cursor-color);
+        0 0 12px var(--cursor-color),
+        0 0 24px var(--cursor-color),
+        0 0 48px var(--cursor-color),
+        0 0 72px var(--cursor-color),
+        0 0 100px var(--cursor-color);
     animation: blink 0.7s infinite;
 }
 
@@ -101,7 +106,11 @@ body {
 /* Last typed character */
 #user-input .last {
     color: var(--last-char-color);
-    text-shadow: 0 0 4px var(--last-char-color);
+    color: var(--last-char-color);
+    text-shadow:
+        0 0 6px var(--last-char-color),
+        0 0 12px var(--last-char-color),
+        0 0 24px var(--last-char-color);
 }
 
 .hidden { display: none; }
