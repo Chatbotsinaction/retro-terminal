@@ -120,6 +120,8 @@ function appendOutput(text) {
 
 // -------- Typewriter effect --------
 function typeResponse(answer) {
+    // Start a new line for the answer
+    output.textContent += "\n";
     let i = 0;
 
     function typeChar() {
@@ -129,9 +131,9 @@ function typeResponse(answer) {
             responseSound.play();
             i++;
             scrollTerminal();
-            setTimeout(typeChar, 25);
+            setTimeout(typeChar, 25); // typing speed
         } else {
-            output.textContent += "\n";
+            output.textContent += "\n"; // add line break after answer
             scrollTerminal();
         }
     }
