@@ -114,7 +114,11 @@ function processCommand(cmd) {
 
 // -------- Append output instantly --------
 function appendOutput(text) {
-    output.textContent += "\n" + text;
+    function appendOutput(text) {
+    const line = document.createElement("div");
+    line.classList.add("output-line");
+    line.textContent = text;
+    output.appendChild(line);
     scrollTerminal();
 }
 
@@ -124,23 +128,38 @@ function typeResponse(answer) {
     output.textContent += "\n";
     let i = 0;
 
-    function typeChar() {
-        if (i < answer.length) {
-            output.textContent += answer[i];
-            responseSound.currentTime = 0;
-            responseSound.play();
-            i++;
-            scrollTerminal();
-            setTimeout(typeChar, 25); // typing speed
-        } else {
-            output.textContent += "\n"; // add line break after answer
-            scrollTerminal();
+    function typeResponse(answer) {
+    // Create a container div for this answer
+    const answerLine = document.createElement("div");
+    answerLine.classList.add("output-line"); // needed for absolute sweep
+    output.appendChild(answerLine);
+    scrollTerminal();
+
+    // Create the sweep element inside the line
+    const sweep = document.createElement("div");
+    sweep.classList.add("sweep");
+    answerLine.appendChild(sweep);
+
+    // When sweep finishes, remove it and start typewriter
+    sweep.addEventListener("animationend", () => {
+        sweep.remove();
+
+        let i = 0;
+
+        function typeChar() {
+            if (i < answer.length) {
+                answerLine.textContent += answer[i];
+                responseSound.currentTime = 0;
+                responseSound.play();
+                i++;
+                scrollTerminal();
+                setTimeout(typeChar, 25); // typing speed
+            }
         }
-    }
 
-    setTimeout(typeChar, 200);
+        typeChar();
+    });
 }
-
 // -------- Scroll terminal to bottom --------
 function scrollTerminal() {
     terminal.scrollTop = terminal.scrollHeight;
