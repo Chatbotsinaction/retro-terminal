@@ -44,7 +44,7 @@ const commands = {
     "hi mother": "INTERFACE 2037 READY FOR INQUIRY",
     "request clarification on science inability to neutralize alien": "UNABLE TO CLARIFY",
     "request enhancement": "NO FURTHER ENHANCEMENT\nSPECIAL ORDER 937\nSCIENCE OFFICER EYES ONLY\nEMERGENCY COMMAND OVERIDE 100375",
-    "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.PRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE",
+    "what is special order 937 ?": "NOSTROMO REROUTED\nTO NEW CO-ORDINATES.\nINVESTIGATE LIFE FORM. GATHER SPECIMEN.PRIORITY ONE\nINSURE RETURN OF ORGANISM\nFOR ANALYSIS.\nALL OTHER CONSIDERATIONS SECONDARY.\nCREW EXPENDABLE"
 };
 
 // -------- User Input Handling --------
@@ -93,7 +93,7 @@ window.addEventListener("keydown", (e) => {
 // -------- Process Commands --------
 function processCommand(cmd) {
     cmd = cmd.trim();
-    
+
     if (!firstPromptEntered) {
         if (cmd.toLowerCase() === "hi mother") {
             firstPromptEntered = true;
@@ -114,7 +114,6 @@ function processCommand(cmd) {
 
 // -------- Append output instantly --------
 function appendOutput(text) {
-    function appendOutput(text) {
     const line = document.createElement("div");
     line.classList.add("output-line");
     line.textContent = text;
@@ -122,16 +121,11 @@ function appendOutput(text) {
     scrollTerminal();
 }
 
-// -------- Typewriter effect --------
+// -------- Typewriter effect with sweep --------
 function typeResponse(answer) {
-    // Start a new line for the answer
-    output.textContent += "\n";
-    let i = 0;
-
-    function typeResponse(answer) {
     // Create a container div for this answer
     const answerLine = document.createElement("div");
-    answerLine.classList.add("output-line"); // needed for absolute sweep
+    answerLine.classList.add("output-line"); // allows absolute sweep
     output.appendChild(answerLine);
     scrollTerminal();
 
@@ -160,12 +154,13 @@ function typeResponse(answer) {
         typeChar();
     });
 }
+
 // -------- Scroll terminal to bottom --------
 function scrollTerminal() {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-// -------- CRT Noise (optional, can remove if needed) --------
+// -------- CRT Noise --------
 const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
