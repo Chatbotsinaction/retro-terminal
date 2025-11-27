@@ -97,17 +97,32 @@ function cleanLastHighlight() {
 
 // Process command logic ---------------------------
 function processCommand(cmd) {
-    output.textContent += `\n> ${cmd}`;
+    output.textContent += `\n> ${cmd}\n`;
+    output.scrollTop = output.scrollHeight;
 
     const answer = commands[cmd.toLowerCase()] || "Unknown command.";
 
-    setTimeout(() => {
-        responseSound.currentTime = 0;
-        responseSound.play();
+    // Typewriter effect
+    let i = 0;
 
-        output.textContent += `\n${answer}\n`;
-        output.scrollTop = output.scrollHeight;
-    }, 200);
+    function typeResponse() {
+        if (i < answer.length) {
+            output.textContent += answer[i];
+            responseSound.currentTime = 0;
+            responseSound.play();
+
+            i++;
+
+            output.scrollTop = output.scrollHeight;
+
+            // Speed: faster than user typing
+            setTimeout(typeResponse, 25); 
+        } else {
+            output.textContent += "\n";
+        }
+    }
+
+    setTimeout(typeResponse, 200); // slight delay before typing starts
 }
 
 // CRT NOISE ---------------------------------------
