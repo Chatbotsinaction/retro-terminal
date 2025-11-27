@@ -139,6 +139,7 @@ function appendQA(questionText, answerText) {
 
     const aDiv = document.createElement("div");
     aDiv.classList.add("answer");
+    aDiv.style.position = "relative"; // ensure sweep positions correctly
     qaPair.appendChild(aDiv);
 
     output.appendChild(qaPair);
@@ -147,7 +148,11 @@ function appendQA(questionText, answerText) {
     // --- Sweep BEFORE typing answer ---
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
-    sweep.style.height = aDiv.offsetHeight + "px";
+
+    // Set sweep height based on font size
+    const lineHeight = parseInt(window.getComputedStyle(aDiv).fontSize) * 1.2;
+    sweep.style.height = lineHeight + "px";
+
     aDiv.appendChild(sweep);
 
     sweep.addEventListener("animationend", () => {
