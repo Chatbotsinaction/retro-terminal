@@ -130,6 +130,8 @@ const crt = document.getElementById("crt");
 const ctx = crt.getContext("2d");
 crt.width = window.innerWidth;
 crt.height = window.innerHeight;
+ctx.fillStyle = "black";  // fill with solid black
+ctx.fillRect(0, 0, crt.width, crt.height);
 
 function drawCRT() {
     const imageData = ctx.createImageData(crt.width, crt.height);
