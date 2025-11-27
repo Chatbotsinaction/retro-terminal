@@ -1,4 +1,4 @@
-// -------- Boot Sequence --------  
+// -------- Boot Sequence -------- 
 const bootText = `MO-TH-ER 7000
 Initializing system... 
 Loading kernel modules...
@@ -38,37 +38,7 @@ function returnToBoot() {
     terminal.classList.add("hidden");
     bootScreen.classList.remove("hidden");
     bootIndex = 0;
-    startGlitch(); // optional: glitch before boot screen on return
-}
-
-// -------- Glitch screen effect --------
-function startGlitch() {
-    const duration = 2000; // glitch duration in ms
-    const startTime = Date.now();
-
-    function drawGlitch() {
-        const elapsed = Date.now() - startTime;
-        if (elapsed > duration) {
-            ctx.clearRect(0, 0, crt.width, crt.height); // clear glitch
-            playBoot(); // start boot screen after glitch
-            return;
-        }
-
-        const count = 20; // number of glitch stripes
-        for (let i = 0; i < count; i++) {
-            const x = Math.random() * crt.width;
-            const y = Math.random() * crt.height;
-            const w = Math.random() * 50 + 20;
-            const h = Math.random() * 5 + 2;
-
-            ctx.fillStyle = `rgba(${Math.random()*255},${Math.random()*255},${Math.random()*255},${Math.random()})`;
-            ctx.fillRect(x, y, w, h);
-        }
-
-        requestAnimationFrame(drawGlitch);
-    }
-
-    drawGlitch();
+    playBoot();
 }
 
 // -------- Boot animation --------
@@ -179,6 +149,7 @@ function appendQA(questionText, answerText) {
     const sweep = document.createElement("div");
     sweep.classList.add("sweep");
 
+    // Set sweep height based on font size
     const lineHeight = parseInt(window.getComputedStyle(aDiv).fontSize) * 1.2;
     sweep.style.height = lineHeight + "px";
 
@@ -246,5 +217,5 @@ window.addEventListener("click", startTerminal, { once: true });
 window.addEventListener("keydown", startTerminal, { once: true });
 
 function startTerminal() {
-    startGlitch(); // show glitch first
+    playBoot();
 }
