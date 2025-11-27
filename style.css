@@ -1,5 +1,5 @@
-:root {
-    --terminal-color: #54A314;        /* darker glowing green */
+:root { 
+    --terminal-color: #54A314;
     --terminal-glow: 0 0 100px #54A314;
 
     --terminal-font-size: 22px;
@@ -9,7 +9,6 @@
     --last-char-color: orange;
 }
 
-/* Base layout */
 body {
     margin: 0;
     background: black;
@@ -19,7 +18,15 @@ body {
     overflow: hidden;
 }
 
-/*#crt { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }*/
+/* CRT layer */
+#crt {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
 
 #boot-screen {
     position: absolute;
@@ -32,34 +39,39 @@ body {
     text-shadow: var(--terminal-glow);
 }
 
+/* Terminal layout */
 #terminal {
     position: relative;
     z-index: 2;
     padding: 20px;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
+    display: block;       /* block flow ensures input follows output */
+    overflow-y: auto;     /* scrolls if content exceeds view */
 }
-
-.hidden { display: none; }
 
 #output {
-    order: 1;
-    flex-grow: 1;
-    overflow-y: auto;
     white-space: pre-wrap;
     color: var(--terminal-color);
-    text-shadow: var(--terminal-glow);
+    text-shadow:
+        0 0 8px var(--terminal-color),
+        0 0 16px var(--terminal-color),
+        0 0 32px var(--terminal-color),
+        0 0 48px var(--terminal-color);
 }
 
-/* Input line */
+/* Input line follows output */
 #input-line {
-    order: 0;
-    margin-bottom: 10px;
+    display: flex;
+    font-size: var(--terminal-font-size);
+    margin-top: 5px;
 }
 
 #user-input {
-    text-shadow: var(--terminal-glow);
+    text-shadow:
+        0 0 8px var(--terminal-color),
+        0 0 16px var(--terminal-color),
+        0 0 32px var(--terminal-color),
+        0 0 48px var(--terminal-color);
 }
 
 #cursor {
@@ -83,11 +95,4 @@ body {
     text-shadow: 0 0 4px var(--last-char-color);
 }
 
-#user-input,
-#output {
-    text-shadow:
-        0 0 8px var(--terminal-color),
-        0 0 16px var(--terminal-color),
-        0 0 32px var(--terminal-color),
-        0 0 48px var(--terminal-color);
-}
+.hidden { display: none; }
