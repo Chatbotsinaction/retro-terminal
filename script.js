@@ -283,3 +283,51 @@ function startHeavyInterference(duration = 4000) {
         setTimeout(() => layer.remove(), 1200);
     }, duration);
 }
+
+/* -----------------------------------------------------------
+   SOUND DISTORTION FOR HEAVY INTERFERENCE
+----------------------------------------------------------- */
+function startSoundDistortion(duration = 4000) {
+
+    const staticNoise = document.getElementById("distort-static");
+    const pop = document.getElementById("distort-pop");
+    const hum = document.getElementById("distort-hum");
+    const bootSound = document.getElementById("boot-sound");
+
+    // Volume setup
+    staticNoise.volume = 0.45;
+    hum.volume = 0.25;
+
+    staticNoise.play();
+    hum.play();
+
+    // Boot sound pitch glitch
+    const origPlaybackRate = bootSound.playbackRate;
+    bootSound.playbackRate = 0.55 + Math.random() * 0.4;
+
+    // Random popping generator
+    const popTimer = setInterval(() => {
+        pop.volume = 0.2 + Math.random() * 0.5;
+        pop.currentTime = 0;
+        pop.play();
+    }, 300 + Math.random() * 200);
+
+    // Hum detuning wobble
+    const humTimer = setInterval(() => {
+        hum.playbackRate = 0.9 + Math.random() * 0.3;
+    }, 150);
+
+    // Stop everything
+    setTimeout(() => {
+        staticNoise.pause();
+        hum.pause();
+        clearInterval(popTimer);
+        clearInterval(humTimer);
+
+        staticNoise.currentTime = 0;
+        hum.currentTime = 0;
+
+        bootSound.playbackRate = origPlaybackRate;
+
+    }, duration);
+}
