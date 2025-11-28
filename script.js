@@ -1,5 +1,5 @@
 // -------- Boot Sequence -------- 
-startGlitchPulses(3200);
+startHeavyInterference(4500);
 const bootText = `MO-TH-ER 7000
 Initializing system... 
 Loading kernel modules...
