@@ -221,3 +221,48 @@ window.addEventListener("keydown", startTerminal, { once: true });
 function startTerminal() {
     playBoot();
 }
+
+/* -----------------------------------------------------------
+   OPTION B — RANDOM GLITCH PULSES (DIGITAL DISTORTION FLASHES)
+----------------------------------------------------------- */
+
+function startGlitchPulses(duration = 3000) {
+    const glitch = document.getElementById("glitch-layer");
+
+    // Create white-noise flash layer
+    const flash = document.createElement("div");
+    flash.classList.add("glitch-flash");
+    glitch.appendChild(flash);
+
+    // Create 12 glitch slices
+    const slices = [];
+    for (let i = 0; i < 12; i++) {
+        const s = document.createElement("div");
+        s.classList.add("glitch-slice");
+        glitch.appendChild(s);
+        slices.push(s);
+    }
+
+    // Random glitch bursts
+    const interval = setInterval(() => {
+        slices.forEach(slice => {
+            slice.style.top = Math.random() * 100 + "vh";
+            slice.style.opacity = Math.random() > 0.5 ? 1 : 0;
+            slice.style.transform = `translateX(${(Math.random() * 40) - 20}px)`;
+            slice.style.height = (2 + Math.random() * 6) + "vh";
+            slice.style.background = `rgb(0, ${100 + Math.random()*155}, 0)`;
+        });
+
+        // Flash moment
+        flash.style.opacity = 0.2;
+        setTimeout(() => flash.style.opacity = 0, 60);
+
+    }, 120);
+
+    // Stop after duration
+    setTimeout(() => {
+        clearInterval(interval);
+        glitch.style.opacity = 0;
+        setTimeout(() => glitch.remove(), 900);
+    }, duration);
+}
