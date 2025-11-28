@@ -133,10 +133,10 @@ body {
 }
 
 /* -----------------------------------------------------------
-   RANDOM GLITCH PULSES (OPTION B)
+   OPTION C — HEAVY INTERFERENCE (FULL SIGNAL BREAKDOWN)
 ----------------------------------------------------------- */
 
-#glitch-layer {
+#interference-layer {
     position: absolute;
     top: 0; 
     left: 0;
@@ -146,30 +146,46 @@ body {
     z-index: 9999;
     pointer-events: none;
     opacity: 1;
+    overflow: hidden;
 }
 
-/* Glitch slices */
-.glitch-slice {
+/* Thick tearing bands */
+.interference-band {
     position: absolute;
-    width: 100%;
-    height: 4vh;
-    background: inherit;
+    width: 120%;
+    height: 10vh;
+    left: -10%;
+    background: rgba(0,255,0,0.25);
     mix-blend-mode: screen;
     opacity: 0;
-    filter: contrast(140%) brightness(180%);
 }
 
-/* Flash white noise moment */
-.glitch-flash {
+/* RGB channel offsets */
+.rgb-offset {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: screen;
+    opacity: 0;
+}
+
+.rgb-offset.red { filter: contrast(200%) brightness(180%) hue-rotate(-40deg); }
+.rgb-offset.blue { filter: contrast(200%) brightness(180%) hue-rotate(140deg); }
+
+/* Static noise overlay */
+.static-noise {
     position: absolute;
     width: 100%;
     height: 100%;
     background: repeating-linear-gradient(
         0deg,
-        rgba(255,255,255,0.2) 0px,
-        rgba(255,255,255,0.0) 2px
+        rgba(255,255,255,0.15) 0px,
+        rgba(255,255,255,0.0) 3px
     );
     opacity: 0;
+    mix-blend-mode: screen;
 }
 
 /* Ensure answer lines can position children absolutely */
