@@ -224,46 +224,62 @@ function startTerminal() {
 }
 
 /* -----------------------------------------------------------
-   OPTION B — RANDOM GLITCH PULSES (DIGITAL DISTORTION FLASHES)
+   OPTION C — HEAVY INTERFERENCE (FULL SIGNAL BREAKDOWN)
 ----------------------------------------------------------- */
 
-function startGlitchPulses(duration = 3000) {
-    const glitch = document.getElementById("glitch-layer");
+function startHeavyInterference(duration = 4000) {
+    const layer = document.getElementById("interference-layer");
 
-    // Create white-noise flash layer
-    const flash = document.createElement("div");
-    flash.classList.add("glitch-flash");
-    glitch.appendChild(flash);
+    // Create RGB offset layers
+    const red = document.createElement("div");
+    red.classList.add("rgb-offset", "red");
+    const blue = document.createElement("div");
+    blue.classList.add("rgb-offset", "blue");
+    layer.appendChild(red);
+    layer.appendChild(blue);
 
-    // Create 12 glitch slices
-    const slices = [];
-    for (let i = 0; i < 12; i++) {
-        const s = document.createElement("div");
-        s.classList.add("glitch-slice");
-        glitch.appendChild(s);
-        slices.push(s);
+    // Create static noise
+    const noise = document.createElement("div");
+    noise.classList.add("static-noise");
+    layer.appendChild(noise);
+
+    // Create tearing bands
+    const bands = [];
+    for (let i = 0; i < 6; i++) {
+        const b = document.createElement("div");
+        b.classList.add("interference-band");
+        layer.appendChild(b);
+        bands.push(b);
     }
 
-    // Random glitch bursts
+    // Animate the chaos
     const interval = setInterval(() => {
-        slices.forEach(slice => {
-            slice.style.top = Math.random() * 100 + "vh";
-            slice.style.opacity = Math.random() > 0.5 ? 1 : 0;
-            slice.style.transform = `translateX(${(Math.random() * 40) - 20}px)`;
-            slice.style.height = (2 + Math.random() * 6) + "vh";
-            slice.style.background = `rgb(0, ${100 + Math.random()*155}, 0)`;
+        // RGB separation
+        red.style.opacity = 0.4;
+        red.style.transform = `translate(${Math.random() * 8}px, ${Math.random() * 4}px)`;
+
+        blue.style.opacity = 0.4;
+        blue.style.transform = `translate(${-Math.random() * 8}px, ${-Math.random() * 4}px)`;
+
+        // Heavy noise pulsing
+        noise.style.opacity = Math.random() * 0.45;
+
+        // Tearing bands
+        bands.forEach(b => {
+            b.style.top = Math.random() * 100 + "vh";
+            b.style.opacity = Math.random() > 0.5 ? 1 : 0;
+            b.style.transform = `translateX(${(Math.random() * 80) - 40}px)
+                                 skewX(${(Math.random() * 30) - 15}deg)`;
+            b.style.height = (6 + Math.random() * 14) + "vh";
+            b.style.background = `rgba(0, ${150 + Math.random()*105}, 0, ${0.25 + Math.random()*0.2})`;
         });
 
-        // Flash moment
-        flash.style.opacity = 0.2;
-        setTimeout(() => flash.style.opacity = 0, 60);
-
-    }, 120);
+    }, 80);
 
     // Stop after duration
     setTimeout(() => {
         clearInterval(interval);
-        glitch.style.opacity = 0;
-        setTimeout(() => glitch.remove(), 900);
+        layer.style.opacity = 0;
+        setTimeout(() => layer.remove(), 1200);
     }, duration);
 }
