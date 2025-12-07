@@ -6,7 +6,7 @@
     --terminal-font: "Berthold City Light";
 
     /* NEW — controls horizontal font stretch (50%–200%) */
-    --terminal-font-stretch: 150%;
+    --terminal-font-scale: 150%;
 
     /* Optional alternative: transform-based stretch */
     /* --terminal-font-scale: 1.2; */
@@ -23,7 +23,8 @@ body {
     font-size: var(--terminal-font-size);
 
     /* Apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
     
     overflow: hidden;
 }
@@ -55,7 +56,8 @@ body {
         0 0 100px var(--terminal-color);
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 /* Terminal layout */
@@ -72,7 +74,8 @@ body {
     overflow-y: auto;
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 #output {
@@ -86,7 +89,8 @@ body {
         0 0 100px var(--terminal-color);
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 /* Input line follows output */
@@ -95,7 +99,8 @@ body {
     font-size: var(--terminal-font-size);
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
     
     margin-top: 5px;
 }
@@ -109,7 +114,8 @@ body {
         0 0 100px var(--terminal-color);
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 #cursor {
@@ -123,7 +129,8 @@ body {
     animation: blink 0.7s infinite;
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 @keyframes blink {
@@ -142,7 +149,8 @@ body {
         0 0 24px var(--last-char-color);
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
 
 .hidden { display: none; }
@@ -225,5 +233,6 @@ body {
     position: relative;
 
     /* apply stretch */
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 }
