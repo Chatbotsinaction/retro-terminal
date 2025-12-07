@@ -11,7 +11,8 @@
     /* Optional alternative: transform-based stretch */
     /* --terminal-font-scale: 1.2; */
 
-    font-stretch: var(--terminal-font-stretch);
+    transform: scaleX(var(--terminal-font-scale));
+    display: inline-block;
 
     --cursor-color: #54A314;
     --last-char-color: orange;
