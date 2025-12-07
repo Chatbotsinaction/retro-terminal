@@ -3,7 +3,15 @@
     --terminal-glow: 0 0 100px #54A314;
 
     --terminal-font-size: 22px;
-    --terminal-font: "Berthold City Light", expanded;
+    --terminal-font: "Berthold City Light";
+
+    /* NEW — controls horizontal font stretch (50%–200%) */
+    --terminal-font-stretch: 150%;
+
+    /* Optional alternative: transform-based stretch */
+    /* --terminal-font-scale: 1.2; */
+
+    font-stretch: var(--terminal-font-stretch);
 
     --cursor-color: #54A314;
     --last-char-color: orange;
