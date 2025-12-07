@@ -43,7 +43,7 @@ body {
         0 0 24px var(--terminal-color),
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
-        0 0 100px var(--terminal-color);
+        0 0 72px var(--terminal-color);
 }
 
 /* Terminal layout */
@@ -68,7 +68,7 @@ body {
         0 0 24px var(--terminal-color),
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
-        0 0 100px var(--terminal-color);
+        0 0 72px var(--terminal-color);
 }
 
 /* Input line follows output */
@@ -85,7 +85,7 @@ body {
         0 0 24px var(--terminal-color),
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
-        0 0 100px var(--terminal-color);
+        0 0 72px var(--terminal-color);
 }
 
 #cursor {
@@ -95,7 +95,7 @@ body {
         0 0 24px var(--cursor-color),
         0 0 48px var(--cursor-color),
         0 0 72px var(--cursor-color),
-        0 0 100px var(--cursor-color);
+        0 0 72px var(--cursor-color);
     animation: blink 0.7s infinite;
 }
 
