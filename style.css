@@ -1,6 +1,6 @@
 :root { 
     --terminal-color: #54A314;
-    --terminal-glow: 0 0 100px #54A314;
+    --terminal-glow: 0 0 60px #54A314;
 
     --terminal-font-size: 28px;
     --terminal-font: "Berthold City Light";
