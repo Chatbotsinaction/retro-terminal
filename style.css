@@ -6,7 +6,7 @@
     --terminal-font: "Berthold City Light";
 
     /* NEW — controls horizontal font stretch (50%–200%) */
-    --terminal-font-scale: 150%;
+    --terminal-font-scale: 100%;
 
     /* Optional alternative: transform-based stretch */
     /* --terminal-font-scale: 1.2; */
