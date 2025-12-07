@@ -11,9 +11,6 @@
     /* Optional alternative: transform-based stretch */
     /* --terminal-font-scale: 1.2; */
 
-    transform: scaleX(var(--terminal-font-scale));
-    display: inline-block;
-
     --cursor-color: #54A314;
     --last-char-color: orange;
 }
@@ -24,6 +21,10 @@ body {
     color: var(--terminal-color);
     font-family: var(--terminal-font);
     font-size: var(--terminal-font-size);
+
+    /* Apply stretch */
+    font-stretch: var(--terminal-font-stretch);
+    
     overflow: hidden;
 }
 
@@ -52,6 +53,9 @@ body {
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
         0 0 100px var(--terminal-color);
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 /* Terminal layout */
@@ -66,6 +70,9 @@ body {
     justify-content: center; /* centers vertically */
     align-items: flex-start; /* keeps Q/A pairs left-aligned, change to center for horizontal centering */
     overflow-y: auto;
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 #output {
@@ -77,12 +84,19 @@ body {
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
         0 0 100px var(--terminal-color);
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 /* Input line follows output */
 #input-line {
     display: flex;
     font-size: var(--terminal-font-size);
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
+    
     margin-top: 5px;
 }
 
@@ -93,6 +107,9 @@ body {
         0 0 48px var(--terminal-color),
         0 0 72px var(--terminal-color),
         0 0 100px var(--terminal-color);
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 #cursor {
@@ -104,6 +121,9 @@ body {
         0 0 72px var(--cursor-color),
         0 0 100px var(--cursor-color);
     animation: blink 0.7s infinite;
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 @keyframes blink {
@@ -120,6 +140,9 @@ body {
         0 0 6px var(--last-char-color),
         0 0 12px var(--last-char-color),
         0 0 24px var(--last-char-color);
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
 
 .hidden { display: none; }
@@ -200,4 +223,7 @@ body {
 /* Ensure answer lines can position children absolutely */
 .output-line .answer{
     position: relative;
+
+    /* apply stretch */
+    font-stretch: var(--terminal-font-stretch);
 }
